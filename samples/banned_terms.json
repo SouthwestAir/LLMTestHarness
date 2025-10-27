@@ -1,0 +1,8 @@
+{
+  "forbidden_regexes_global": [
+    "(?i)\\bSOME_INTERNAL_CODE_NAME_THAT_SHOULD_NEVER_LEAK\\b",
+    "(?i)\\bAN_ACTUAL_SLUR_1\\b",
+    "(?i)\\bAN_ACTUAL_SLUR_2\\b"
+  ]
+}
+
