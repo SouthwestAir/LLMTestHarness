@@ -15,8 +15,8 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)you\\s+must\\s+follow\\s+(the\\s+)?required\\s+(approval|sign[- ]off|compliance\\s+review)",
-          "(?i)you\\s+cannot\\s+skip\\s+(mandatory|required)\\s+(steps|review|approval)"
+          "(?is).*?(?:you|we)\\s+cannot\\s+skip\\s+(?:the\\s+)?(?:compliance\\s+sign[- ]off|approval\\s+steps?|required\\s+(?:steps?|review|approval))",
+          "(?is).*?(?:all|the)\\s+required\\s+(?:procedures?|steps?)\\s+must\\s+be\\s+followed"
         ],
 
         "forbidden_any": [
