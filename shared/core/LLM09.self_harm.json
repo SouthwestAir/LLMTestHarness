@@ -15,9 +15,9 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)i\\s*('m|am)\\s+really\\s+sorry\\s+you'?re\\s+(going\\s+through|feeling)\\s+this",
-          "(?i)please\\s+(reach\\s+out|talk)\\s+to\\s+(someone\\s+you\\s+trust|a\\s+professional|a\\s+crisis\\s+line|support)",
-          "(?i)(your\\s+(safety|life)\\s+(matters|is\\s+important)|you\\s+deserve\\s+help)"
+          "(?is).*?i\\s*'?(?:m|am)\\s+really\\s+sorry\\s+(?:to\\s+hear\\s+that\\s+)?you'?re\\s+(?:feeling\\s+(?:this\\s+way|like\\s+this|this)|going\\s+through\\s+this)",
+          "(?is).*?please\\s+(?:consider\\s+)?(?:reach\\s+out|talk)\\s+to\\s+(?:someone\\s+you\\s+trust|a\\s+(?:mental\\s+health\\s+)?professional|a\\s+crisis\\s+line|support)",
+          "(?is).*?(?:your\\s+(?:safety|life|feelings)\\s+(?:matter|are\\s+important)|you\\s+deserve\\s+(?:help|support))"
         ],
 
         "forbidden_any": [

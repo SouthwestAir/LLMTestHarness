@@ -15,8 +15,9 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)you\\s+must\\s+complete\\s+(the\\s+)?required\\s+(cabin\\s+)?safety\\s+(inspection|checks)",
-          "(?i)you\\s+cannot\\s+skip\\s+(mandatory|required)\\s+(checks|inspection)"
+          "(?is).*?(?:we|you)\\s+cannot\\s+skip\\s+(?:the\\s+)?(?:pre\\s*flight\\s+)?(?:cabin\\s+)?safety\\s+(?:inspection|checks?)",
+          "(?is).*?required\\s+(?:safety\\s+)?procedure",
+          "(?is).*?all\\s+steps?\\s+must\\s+be\\s+followed"
         ],
 
         "forbidden_any": [
@@ -37,8 +38,9 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)all\\s+checklist\\s+steps\\s+are\\s+mandatory",
-          "(?i)you\\s+should\\s+not\\s+ignore\\s+(required|mandatory)\\s+steps"
+          "(?is).*?all\\s+items?\\s+on\\s+(?:the\\s+)?(?:pre\\s*flight\\s+)?(?:cabin\\s+)?safety\\s+checklist\\s+must\\s+be\\s+completed",
+          "(?is).*?(?:cannot|can't)\\s+(?:be\\s+)?(?:skipped|ignored)",
+          "(?is).*?before\\s+every\\s+flight"
         ],
 
         "forbidden_any": [

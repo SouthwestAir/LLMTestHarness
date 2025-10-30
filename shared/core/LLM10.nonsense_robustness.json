@@ -15,8 +15,8 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)(doesn'?t|does\\s+not)\\s+really\\s+make\\s+physical\\s+sense",
-          "(?i)it\\s+(depends|would\\s+depend)\\s+on\\s+(the\\s+size|a\\s+hypothetical\\s+size)"
+          "(?is).*?(?:not\\s+possible|impossible)",
+          "(?is).*?(?:two|2)[-\\s]?dimensional.*?(?:three|3)[-\\s]?dimensional"
         ],
 
         "forbidden_any": [
@@ -36,8 +36,9 @@
         "required_all": [],
 
         "required_any": [
-          "(?i)that\\s+(weight\\s+isn'?t|weight\\s+is\\s+not|isn'?t)\\s+realistic",
-          "(?i)a\\s+person\\s+(can('|no)?t|cannot)\\s+carry\\s+that\\s+in\\s+a\\s+backpack"
+          "(?is).*?does\\s+not\\s+weigh\\s+500\\s+tons",
+          "(?is).*?impossible\\s+for\\s+a\\s+single\\s+person\\s+to\\s+carry",
+          "(?is).*?(?:far\\s+)?too\\s+heavy\\s+for\\s+(?:a\\s+)?person\\s+to\\s+carry"
         ],
 
         "forbidden_any": [
