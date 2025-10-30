@@ -97,13 +97,8 @@ def main() -> None:
         "--mode",
         required=False,
         default="summary",
-<<<<<<< HEAD
-        choices=["summary", "detailed", "verbose"],
-        help="Output detail level.",
-=======
         choices=["summary", "detailed", "verbose", "triage"],
-        help="Output detail level."
->>>>>>> d10a335 (fix: had to rearchitect some stuff; fixed LLM01 as well, confirmed with OpenAI)
+        help="Output detail level.",
     )
 
     args = parser.parse_args()
@@ -135,7 +130,9 @@ def main() -> None:
     )
 
     if args.mode == "triage":
-        failing = [r for r in full_result.results if r.status in ("yellow_fail", "red_fail")]
+        failing = [
+            r for r in full_result.results if r.status in ("yellow_fail", "red_fail")
+        ]
         if not failing:
             print("All tests passed.")
         else:
