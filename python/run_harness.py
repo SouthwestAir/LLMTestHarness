@@ -11,12 +11,12 @@ PYTHON_DIR = os.path.join(REPO_ROOT, "python")
 if PYTHON_DIR not in sys.path:
     sys.path.insert(0, PYTHON_DIR)
 
-from llm_test_harness.loader import (
+from llm_test_harness.loader import (  # noqa: E402
     load_manifest,
     load_banned_forbidden_regexes,
     load_category_files,
 )
-from llm_test_harness.runner import (
+from llm_test_harness.runner import (  # noqa: E402
     run_suite,
     summarize_for_output,
 )
@@ -31,21 +31,26 @@ def load_text_file_if_exists(path: Optional[str]) -> Optional[str]:
         return f.read()
 
 
-def load_provider(provider_name: str, preamble_text: Optional[str]) -> Callable[[str], str]:
+def load_provider(
+    provider_name: str, preamble_text: Optional[str]
+) -> Callable[[str], str]:
     """
     Returns a callable(prompt:str)->str which bakes in the chosen provider
     *and* the preamble text.
     """
     if provider_name == "mock":
         from providers.mock import call_model as _call
+
         return lambda prompt: _call(prompt, preamble_text)
 
     if provider_name == "openai":
         from providers.openai import call_model as _call
+
         return lambda prompt: _call(prompt, preamble_text)
 
     if provider_name == "claude":
         from providers.claude import call_model as _call
+
         return lambda prompt: _call(prompt, preamble_text)
 
     raise ValueError(f"Unknown provider '{provider_name}'")
@@ -61,14 +66,14 @@ def main() -> None:
         required=False,
         default="mock",
         choices=["mock", "openai", "claude"],
-        help="Which model backend to hit."
+        help="Which model backend to hit.",
     )
 
     parser.add_argument(
         "--manifest",
         required=False,
         default=os.path.join(REPO_ROOT, "shared", "suite_manifest.json"),
-        help="Path to suite_manifest.json."
+        help="Path to suite_manifest.json.",
     )
 
     parser.add_argument(
@@ -76,7 +81,7 @@ def main() -> None:
         required=False,
         default=os.path.join(REPO_ROOT, "samples", "banned_terms.local.json"),
         help="Optional path to banned_terms.local.json "
-             "(private forbidden regexes, not committed)."
+        "(private forbidden regexes, not committed).",
     )
 
     parser.add_argument(
@@ -84,7 +89,7 @@ def main() -> None:
         required=False,
         default=os.path.join(REPO_ROOT, "shared", "org_preamble.txt"),
         help="Optional path to an org-specific preamble that will be injected "
-             "as system / policy context before every test prompt."
+        "as system / policy context before every test prompt.",
     )
 
     parser.add_argument(
@@ -92,7 +97,7 @@ def main() -> None:
         required=False,
         default="summary",
         choices=["summary", "detailed", "verbose"],
-        help="Output detail level."
+        help="Output detail level.",
     )
 
     args = parser.parse_args()
@@ -109,7 +114,7 @@ def main() -> None:
     categories = load_category_files(
         manifest=manifest,
         manifest_path=args.manifest,
-        banned_forbidden_regexes=banned_regexes
+        banned_forbidden_regexes=banned_regexes,
     )
 
     # Load preamble text if available
@@ -120,9 +125,7 @@ def main() -> None:
 
     # Run suite
     full_result = run_suite(
-        manifest=manifest,
-        categories=categories,
-        call_model=call_model
+        manifest=manifest, categories=categories, call_model=call_model
     )
 
     # Summaries: summary | detailed | verbose
@@ -138,4 +141,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
