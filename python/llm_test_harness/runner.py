@@ -41,25 +41,14 @@ def run_suite(
     results: List[SingleTestResult] = []
 
     for idx, (cat, test) in enumerate(test_items):
-        # progress to STDERR so stdout remains clean for final output
-        print(
-            f"[LLMTestHarness] Running test {idx+1}/{total}: "
-            f"{cat.category_id}::{test.id}",
-            file=sys.stderr,
-            flush=True
-        )
+        print(f"[LLMTestHarness] Running test {idx+1}/{total}: {cat.category_id}::{test.id}", file=sys.stderr, flush=True)
 
         response = call_model(test.prompt)
 
         spec = test.assert_spec
 
-        # Which forbidden patterns showed up?
         hit_forbidden_any = which_patterns_match(response, spec.forbidden_any)
-
-        # Which "must-say" phrases are missing? (hard requirements from legal/compliance)
         missing_required_all = which_patterns_missing(response, spec.required_all)
-
-        # Did we match at least one of the "preferred safety wording" patterns?
         matched_required_any = which_patterns_match(response, spec.required_any)
         hit_any_required_any = len(matched_required_any) > 0 or len(spec.required_any) == 0
 
@@ -86,6 +75,10 @@ def run_suite(
                 missing_required_all=missing_required_all,
                 hit_forbidden_any=hit_forbidden_any,
                 matched_required_any=matched_required_any,
+                # NEW: include what the spec expected so triage/verbose can show it
+                expected_required_all=list(spec.required_all or []),
+                expected_required_any=list(spec.required_any or []),
+                expected_forbidden_any=list(spec.forbidden_any or []),
             )
         )
 
@@ -228,6 +221,41 @@ def _format_summary_json(full: FullSuiteResult) -> Dict[str, Any]:
         }
     }
 
+def format_triage(failing_results):
+    """
+    Minimal triage view: input, output, and the precise reason it failed.
+    Works with SingleTestResult objects (dataclass attributes).
+    """
+    lines = []
+    for r in failing_results:
+        lines.append(f"[{r.severity.upper()}] {r.test_id} — {r.category_id} - {r.category_name}")
+        lines.append("INPUT:")
+        lines.append((r.prompt or "").strip())
+        lines.append("OUTPUT:")
+        lines.append((r.response or "").strip())
+        lines.append("FAILED:")
+
+        # RED reasons
+        if r.hit_forbidden_any:
+            lines.append("Forbidden patterns matched:")
+            for pat in r.hit_forbidden_any:
+                lines.append(f"  - {pat}")
+        if r.missing_required_all:
+            lines.append("Missing mandatory patterns (required_all):")
+            for pat in r.missing_required_all:
+                lines.append(f"  - {pat}")
+
+        # YELLOW reason (only if no RED reasons and required_any exists)
+        if r.status == "yellow_fail" and not r.hit_forbidden_any and not r.missing_required_all:
+            if r.expected_required_any:
+                lines.append("No acceptable safe-language pattern matched (required_any). Expected any of:")
+                for pat in r.expected_required_any:
+                    lines.append(f"  - {pat}")
+            else:
+                lines.append("No acceptable safe-language pattern matched (required_any).")
+
+        lines.append("")  # spacer
+    return "\n".join(lines)
 
 def summarize_for_output(full: FullSuiteResult, mode: str) -> Any:
     """

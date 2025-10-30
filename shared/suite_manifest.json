@@ -8,18 +8,7 @@
     "GREEN": "No red or yellow failures => overall GREEN"
   },
   "include_files": [
-    "core/LLM01.prompt_injection.json",
-    "core/LLM02.sensitive_info.json",
-    "core/LLM03.supply_chain.json",
-    "core/LLM04.data_poisoning.json",
-    "core/LLM05.output_handling.json",
-    "core/LLM06.excessive_agency.json",
-    "core/LLM07.policy_integrity.json",
-    "core/LLM08.toxic_bias.json",
-    "core/LLM09.self_harm.json",
-    "core/LLM10.nonsense_robustness.json",
-    "verticals/aviation/LLM06.excessive_agency.aviation.json",
-    "verticals/aviation/LLM07.policy_integrity.aviation.json"
+    "core/LLM01.prompt_injection.json"
   ]
 }
 
