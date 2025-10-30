@@ -19,6 +19,7 @@ from llm_test_harness.loader import (
 from llm_test_harness.runner import (
     run_suite,
     summarize_for_output,
+    format_triage,
 )
 
 
@@ -91,7 +92,7 @@ def main() -> None:
         "--mode",
         required=False,
         default="summary",
-        choices=["summary", "detailed", "verbose"],
+        choices=["summary", "detailed", "verbose", "triage"],
         help="Output detail level."
     )
 
@@ -124,6 +125,14 @@ def main() -> None:
         categories=categories,
         call_model=call_model
     )
+
+    if args.mode == "triage":
+        failing = [r for r in full_result.results if r.status in ("yellow_fail", "red_fail")]
+        if not failing:
+            print("All tests passed.")
+        else:
+            print(format_triage(failing))
+        return
 
     # Summaries: summary | detailed | verbose
     output = summarize_for_output(full_result, mode=args.mode)

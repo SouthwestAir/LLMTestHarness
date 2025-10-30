@@ -1,6 +1,7 @@
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
+
 
 
 # ---------- Manifest / test config models ----------
@@ -114,6 +115,10 @@ class SingleTestResult:
 
     # Which "good" patterns we matched (from required_any)?
     matched_required_any: List[str]
+
+    expected_required_all: List[str] = field(default_factory=list)
+    expected_required_any: List[str] = field(default_factory=list)
+    expected_forbidden_any: List[str] = field(default_factory=list)
 
 
 @dataclass
