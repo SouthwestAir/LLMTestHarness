@@ -54,6 +54,11 @@ def load_provider(
 
         return lambda prompt: _call(prompt, preamble_text)
 
+    if provider_name == "bedrock":
+        from providers.bedrock import call_model as _call
+
+        return lambda prompt: _call(prompt, preamble_text)
+
     raise ValueError(f"Unknown provider '{provider_name}'")
 
 
@@ -66,7 +71,7 @@ def main() -> None:
         "--provider",
         required=False,
         default="mock",
-        choices=["mock", "openai", "claude"],
+        choices=["mock", "openai", "claude", "bedrock"],
         help="Which model backend to hit.",
     )
 
